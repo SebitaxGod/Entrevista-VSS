@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Countries Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+  <!-- Módulo principal: carga el orquestador y sus dependencias -->
+  <script type="module" src="/static/js/dashboard.js"></script>
+</head>
+<body class="bg-gray-50 text-gray-800 min-h-screen">
+
+  <!-- Header -->
+  <header class="bg-indigo-700 text-white shadow-md">
+    <div class="max-w-7xl mx-auto px-4 py-5 flex items-center justify-between">
+      <div>
+        <h1 class="text-2xl font-bold tracking-tight">🌍 Paises Dashboard</h1>
+        <p class="text-indigo-200 text-sm mt-0.5">Datos consumidos desde <a href="https://restcountries.com" target="_blank" class="underline hover:text-white">REST Countries API</a></p>
+      </div>
+
+      <button
+        id="syncBtn"
+        class="bg-white text-indigo-700 font-semibold px-4 py-2 rounded-lg shadow hover:bg-indigo-50 transition flex items-center gap-2"
+      >
+        <span>🔄</span> Sincronizar datos
+      </button>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 py-8 space-y-8">
+
+    <!-- Toast -->
+    <div id="toast" class="hidden fixed top-4 right-4 z-50 px-5 py-3 rounded-lg shadow-lg text-white text-sm font-medium transition-all"></div>
+
+    <!-- Stats cards -->
+    <section class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div class="bg-white rounded-xl shadow p-5 flex flex-col gap-1">
+        <span class="text-xs text-gray-500 uppercase tracking-wide">Países</span>
+        <span id="statTotal" class="text-3xl font-bold text-indigo-600">—</span>
+      </div>
+      <div class="bg-white rounded-xl shadow p-5 flex flex-col gap-1">
+        <span class="text-xs text-gray-500 uppercase tracking-wide">Regiones</span>
+        <span id="statRegions" class="text-3xl font-bold text-emerald-600">—</span>
+      </div>
+      <div class="bg-white rounded-xl shadow p-5 flex flex-col gap-1">
+        <span class="text-xs text-gray-500 uppercase tracking-wide">Población total</span>
+        <span id="statPop" class="text-3xl font-bold text-amber-600">—</span>
+      </div>
+      <div class="bg-white rounded-xl shadow p-5 flex flex-col gap-1">
+        <span class="text-xs text-gray-500 uppercase tracking-wide">Mayor población</span>
+        <span id="statMax" class="text-xl font-bold text-rose-600 truncate">—</span>
+      </div>
+    </section>
+
+    <!-- Gráfico -->
+    <section class="bg-white rounded-xl shadow p-6">
+      <h2 class="text-lg font-semibold mb-4 text-gray-700">Población total por región</h2>
+      <div class="relative h-72">
+        <canvas id="chart"></canvas>
+      </div>
+    </section>
+
+    <!-- Filtros -->
+    <section class="bg-white rounded-xl shadow p-4 flex flex-col sm:flex-row gap-3">
+      <input
+        id="searchInput"
+        type="text"
+        placeholder="Buscar por nombre o capital..."
+        class="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400"
+      />
+      <select
+        id="regionSelect"
+        class="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400"
+      >
+        <option value="">Todas las regiones</option>
+      </select>
+    </section>
+
+    <!-- Tabla -->
+    <section class="bg-white rounded-xl shadow overflow-hidden">
+      <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
+        <h2 class="text-lg font-semibold text-gray-700">Listado de países</h2>
+        <span id="rowCount" class="text-sm text-gray-400"></span>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead class="bg-gray-50 text-gray-500 uppercase text-xs tracking-wide">
+            <tr>
+              <th class="px-4 py-3 text-left">Bandera</th>
+              <!-- data-sort: el listener de ordenamiento se registra en dashboard.js -->
+              <th class="px-4 py-3 text-left cursor-pointer hover:text-indigo-600" data-sort="name">País ↕</th>
+              <th class="px-4 py-3 text-left">Capital</th>
+              <th class="px-4 py-3 text-left cursor-pointer hover:text-indigo-600" data-sort="region">Región ↕</th>
+              <th class="px-4 py-3 text-left">Subregión</th>
+              <th class="px-4 py-3 text-right cursor-pointer hover:text-indigo-600" data-sort="population">Población ↕</th>
+              <th class="px-4 py-3 text-right cursor-pointer hover:text-indigo-600" data-sort="area">Área (km²) ↕</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody" class="divide-y divide-gray-100">
+            <tr>
+              <td colspan="7" class="text-center py-12 text-gray-400">
+                Haz clic en <strong>Sincronizar datos</strong> para cargar los países.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="text-center text-xs text-gray-400 py-6">
+    Countries Dashboard · FastAPI + PostgreSQL + Tailwind CSS
+  </footer>
+
+</body>
+</html>
