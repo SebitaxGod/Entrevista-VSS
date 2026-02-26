@@ -3,7 +3,7 @@ from typing import Optional
 from app.core.exceptions import CountryNotFoundError
 from app.models import Country
 from app.repositories.abstract_country_repository import AbstractCountryRepository
-from app.schemas import CountryResponse, SyncResponse
+from app.schemas import SyncResponse
 from app.services.country_api_client import CountryApiClient
 
 

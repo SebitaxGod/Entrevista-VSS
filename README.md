@@ -74,7 +74,7 @@ docker compose down
 
 ### 1. Abrir el dashboard
 
-Navegar a **http://localhost:8000** y hacer clic en **"Sincronizar datos"** para obtener los ~250 países desde REST Países y guardarlos en la base de datos.
+Navegar a **http://localhost:8000** y hacer clic en **"Sincronizar datos"** para obtener los ~250 países desde REST Countries y guardarlos en la base de datos.
 
 ### 2. Endpoints disponibles
 
